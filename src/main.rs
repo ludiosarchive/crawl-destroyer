@@ -27,14 +27,28 @@ fn add_random_stuff<'a>(depth: u32, elems: &mut u32, s: &'a mut String) -> &'a m
 				add_random_stuff(depth + 1, elems, s);
 				s.push_str("</blockquote>");
 			}
+			n if n < 12 => {
+				*elems += 1;
+				let n_bytes = rand.gen_range(0, 12000);
+				let text: String = rand.gen_ascii_chars().take(n_bytes).collect();
+				s.push_str(&format!(r#"<a href="{}">{}</a><br>"#, text, text));
+			}
 			n if n < 50 => {
 				*elems += 1;
-				let text: String = rand.gen_ascii_chars().take(10).collect();
+				let n_bytes = rand.gen_range(0, 9);
+				let text: String = rand.gen_ascii_chars().take(n_bytes).collect();
 				s.push_str(&format!(r#"<a href="{}">{}</a><br>"#, text, text));
 			}
 			n if n < 100 => {
 				*elems += 1;
-				s.push_str("lots of words<br>");
+				let n_bytes = rand.gen_range(0, 9);
+				let random_text: String = rand.gen_ascii_chars().take(n_bytes).collect();
+				s.push_str("lots of words ");
+				s.push_str(&random_text);
+				match rand.gen_range(0, 2) {
+					0 => s.push_str("<br>"),
+					_ => s.push_str("<p>")
+				}
 			}
 			_ => {
 				*elems += 1;
