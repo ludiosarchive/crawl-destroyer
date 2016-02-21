@@ -4,6 +4,7 @@ extern crate hyper;
 use hyper::Server;
 use hyper::server::Request;
 use hyper::server::Response;
+use hyper::header::ContentType;
 
 use rand::{Rng, StdRng};
 
@@ -57,7 +58,8 @@ fn make_random_page() -> String {
 	s
 }
 
-fn hello(_: Request, res: Response) {
+fn hello(_: Request, mut res: Response) {
+	res.headers_mut().set(ContentType::html());
 	res.send(make_random_page().as_bytes()).unwrap();
 }
 
