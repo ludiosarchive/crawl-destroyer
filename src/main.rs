@@ -14,7 +14,7 @@ fn add_random_stuff<'a>(depth: u32, elems: &mut u32, s: &'a mut String) -> &'a m
 	}
 	let mut rand = StdRng::new().unwrap();
 	loop {
-		if *elems > 500000 {
+		if *elems > 5000 {
 			break;
 		}
 		match rand.gen_range(0, 100) {
