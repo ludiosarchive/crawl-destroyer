@@ -1,11 +1,11 @@
 extern crate rand;
 extern crate hyper;
 
+use std::env;
 use hyper::Server;
 use hyper::server::Request;
 use hyper::server::Response;
 use hyper::header::{Connection, ContentType};
-
 use rand::{Rng, StdRng};
 
 fn add_random_stuff<'a>(depth: u32, elems: &mut u32, s: &'a mut String) -> &'a mut String {
@@ -81,5 +81,7 @@ fn hello(_: Request, mut res: Response) {
 }
 
 fn main() {
-	Server::http("127.0.0.1:3000").unwrap().handle(hello);
+	let interface_port: String = env::args().nth(1).unwrap_or("127.0.0.1:3000".to_owned());
+	println!("Listening on {}", interface_port);
+	Server::http(&interface_port[..]).unwrap().handle(hello);
 }
